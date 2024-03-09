@@ -1,0 +1,52 @@
+name: Precaution
+description: Analyze source code using Precaution SAST
+author: '@securesauce'
+
+branding:
+  icon: shield
+  color: yellow
+
+inputs:
+  path:
+    description: 'source file(s) or directory(s) to be analyzed'
+    required: false
+    default: '.'
+  disable:
+    description: 'comma-separated list of rule IDs or names to disable'
+    required: false
+    default: 'DEFAULT'
+  GITHUB_TOKEN:
+    description: 'Github token of the repository (automatically created by Github)'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Install dependencies
+      shell: bash
+      run: |
+        pip install precli
+
+    - name: Run Precaution analysis
+      shell: bash
+      run: |
+        if [ "$INPUT_DISABLE" == "DEFAULT" ]; then
+            DISABLE=""
+        else
+            DISABLE="-s $INPUT_DISABLE"
+        fi
+        precli --json -o results.sarif -r $INPUT_PATH $DISABLE
+      env:
+        INPUT_PATH: ${{ inputs.path }}
+        INPUT_DISABLE: ${{ inputs.disable }}
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@main
+      with:
+        name: results.sarif
+        path: results.sarif
+
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: results.sarif
