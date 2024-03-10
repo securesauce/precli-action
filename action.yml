@@ -29,6 +29,9 @@ runs:
       run: |
         pip install precli
 
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
     - name: Run Precaution analysis
       shell: bash
       run: |
