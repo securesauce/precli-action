@@ -1,5 +1,5 @@
 name: Precaution
-description: Analyze source code using Precaution SAST
+description: Analyze source code using Precaution
 author: '@securesauce'
 
 branding:
@@ -24,7 +24,7 @@ runs:
       with:
         python-version: 3.12
 
-    - name: Install dependencies
+    - name: Install precli
       shell: bash
       run: |
         pip install precli
