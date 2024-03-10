@@ -6,7 +6,7 @@ branding:
   icon: shield
   color: yellow
 
-inputs:
+args:
   path:
     description: 'source file(s) or directory(s) to be analyzed'
     required: false
@@ -15,9 +15,6 @@ inputs:
     description: 'comma-separated list of rule IDs or names to disable'
     required: false
     default: 'DEFAULT'
-  GITHUB_TOKEN:
-    description: 'Github token of the repository (automatically created by Github)'
-    required: true
 
 runs:
   using: composite
@@ -35,15 +32,15 @@ runs:
     - name: Run Precaution analysis
       shell: bash
       run: |
-        if [ "$INPUT_DISABLE" == "DEFAULT" ]; then
+        if [ "$ARG_DISABLE" == "DEFAULT" ]; then
             DISABLE=""
         else
-            DISABLE="-s $INPUT_DISABLE"
+            DISABLE="-s $ARG_DISABLE"
         fi
-        precli --json -o results.sarif -r $INPUT_PATH $DISABLE
+        precli --json -o results.sarif -r $ARG_PATH $DISABLE
       env:
-        INPUT_PATH: ${{ inputs.path }}
-        INPUT_DISABLE: ${{ inputs.disable }}
+        ARG_PATH: ${{ args.path }}
+        ARG_DISABLE: ${{ args.disable }}
 
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v3
