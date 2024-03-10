@@ -6,7 +6,7 @@ branding:
   icon: shield
   color: yellow
 
-args:
+inputs:
   path:
     description: 'source file(s) or directory(s) to be analyzed'
     required: false
@@ -32,15 +32,15 @@ runs:
     - name: Run Precaution analysis
       shell: bash
       run: |
-        if [ "$ARG_DISABLE" == "DEFAULT" ]; then
+        if [ "$INPUT_DISABLE" == "DEFAULT" ]; then
             DISABLE=""
         else
-            DISABLE="-s $ARG_DISABLE"
+            DISABLE="-s $INPUT_DISABLE"
         fi
-        precli --json -o results.sarif -r $ARG_PATH $DISABLE
+        precli --json -o results.sarif -r $INPUT_PATH $DISABLE
       env:
-        ARG_PATH: ${{ args.path }}
-        ARG_DISABLE: ${{ args.disable }}
+        INPUT_PATH: ${{ inputs.path }}
+        INPUT_DISABLE: ${{ inputs.disable }}
 
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v3
