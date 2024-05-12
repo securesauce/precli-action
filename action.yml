@@ -1,10 +1,10 @@
-name: Precaution SAST
+name: Precaution
 description: Analyze source code using Precaution
 author: '@securesauce'
 
 branding:
   icon: shield
-  color: yellow
+  color: white
 
 inputs:
   path:
