@@ -28,14 +28,7 @@ jobs:
 
 ## Inputs
 
-### `path`
-
-**Optional** The source file(s) or directory(s) to be analyzed
-
-**Default** `"."`
-
-### `disable`
-
-**Optional** A comma-separated list of rule IDs or names to disable
-
-**Default** `"DEFAULT"`
+| Name | Description | Required | Default Value |
+|--|--|--|--|
+| path | The source file(s) or directory(s) to be analyzed | False | `"."` |
+| disable | A comma-separated list of rule IDs or names to disable | False | `"DEFAULT"` |
